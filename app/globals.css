@@ -1,0 +1,309 @@
+/* app/globals.css
+   - Tailwind directives
+   - Theme variables
+   - Utility helpers for cards, map, buttons, trip UI
+   - Dark-mode support (class="dark" on <html> or <body>)
+*/
+/* ========== 1) Tailwind base setup ========== */
+@import "tailwindcss";
+
+/* Optional: import a Google font — prefer using next/font or a <link rel="stylesheet"> in the layout for better performance. */
+/* If you use Mapbox GL JS and import its CSS, uncomment the line below:
+  @import 'mapbox-gl/dist/mapbox-gl.css';
+*/
+
+/* ========== 2) CSS variables (theme) ========== */
+:root {
+  --color-bg: #f8fafc;            /* light gray */
+  --color-surface: #ffffff;       /* card background */
+  --color-primary: #2563eb;       /* blue-600 */
+  --color-primary-600: #1e40af;   /* blue-800 */
+  --color-muted: #6b7280;         /* gray-500 */
+  --color-accent: #06b6d4;        /* cyan-500 (for highlights) */
+  --color-success: #16a34a;
+  --color-danger: #ef4444;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --shadow-sm: 0 1px 2px rgba(16,24,40,0.04);
+  --shadow-md: 0 8px 24px rgba(16,24,40,0.08);
+  --max-content-width: 1200px;
+}
+
+/* Dark theme variables (class-based) */
+.dark {
+  --color-bg: #0b1220;
+  --color-surface: #071028;
+  --color-primary: #60a5fa;
+  --color-primary-600: #2563eb;
+  --color-muted: #94a3b8;
+  --color-accent: #34d399;
+  --color-success: #22c55e;
+  --color-danger: #f87171;
+}
+
+/* ========== 3) Base element styling ========== */
+html, body, #__next {
+  height: 100%;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+
+  body {
+  font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+
+  background-color: var(--color-bg);
+  color: #0f172a; /* fallback text */
+  margin: 0;
+  line-height: 1.45;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Headings */
+h1, h2, h3, h4 {
+  color: inherit;
+  margin: 0;
+}
+
+/* Reset for images */
+img { display: block; max-width: 100%; height: auto; }
+
+/* Smooth transitions for UI polished feel */
+* {
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .18s ease;
+}
+
+/* ========== 4) Utilities & layout helpers ========== */
+
+/* centered container consistent with Tailwind container but control width here */
+.container {
+  max-width: var(--max-content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Card base used across place cards, trip cards, etc. */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border: 1px solid rgba(15,23,42,0.04);
+}
+
+/* Compact card (for Blinkit-style compact product look) */
+.card-compact {
+  border-radius: 12px;
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(37,99,235,0.06);
+  border: none;
+}
+.btn-primary {
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-600) 100%);
+  color: white;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid rgba(37,99,235,0.08);
+}
+
+/* Small badge/chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: rgba(15,23,42,0.04);
+  color: var(--color-muted);
+}
+
+/* Focus ring accessible */
+:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+  border-radius: 8px;
+}
+
+/* Subtle hover/active micro-interactions */
+.hover-lift:hover { transform: translateY(-3px); }
+.tap-scale:active { transform: scale(.98); }
+
+/* ========== 5) Grid & responsive helpers ========== */
+
+/* Place list responsive grid — matches Blinkit compact grid feel */
+.places-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) { /* sm */
+  .places-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) { /* lg */
+  .places-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1280px) { /* xl */
+  .places-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Trip list container */
+.trip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Responsive card width scaling (used for booking card behavior) */
+.responsive-card {
+  width: 100%;
+  max-width: 420px; /* mobile default */
+}
+@media (min-width: 768px) { .responsive-card { max-width: 640px; } }
+@media (min-width: 1280px) { .responsive-card { max-width: 900px; } }
+
+/* ========== 6) Map & map container helpers ========== */
+/* Mapbox / map container style */
+.map-container {
+  width: 100%;
+  height: 360px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(15,23,42,0.04);
+}
+
+/* Map legend / popup styles */
+.map-legend {
+  background: rgba(255,255,255,0.95);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+/* ========== 7) Trip summary / badge ========== */
+.trip-summary {
+  background: linear-gradient(90deg, rgba(37,99,235,0.06), rgba(6,182,212,0.03));
+  padding: 1rem;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 1rem;
+}
+
+/* ========== 8) Accessibility & small utilities ========== */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* Simple spinner for loaders (used if you don't want an icon) */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.06);
+  border-top-color: var(--color-primary);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ========== 9) Tiny helpers for export / print ========== */
+.print-hidden { display: none !important; }
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+}
+
+/* ========== 10) Typography tweaks ========== */
+.lead {
+  font-size: 1.05rem;
+  color: var(--color-muted);
+}
+
+/* small meta text */
+.meta {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* ========== 11) Misc polish ========== */
+/* nice rounded image */
+.rounded-image {
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* custom scrollbar (subtle) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(37,99,235,0.14), rgba(37,99,235,0.06));
+  border-radius: 999px;
+  border: 2px solid transparent;
+}
+::-webkit-scrollbar-track { background: transparent; }
+
+/* small responsive text utility */
+.text-xs-compact { font-size: 0.72rem; line-height: 1rem; }
+
+/* ========== 12) Example component utility (place card layout) ========== */
+/* Use these inside your PlaceCard/TripCard components to keep consistent look */
+.place-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.place-card .media {
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.place-card .body {
+  padding: 0.6rem 0;
+}
+.place-card .title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.place-card .sub {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+/* ========== End of globals.css ========== */
